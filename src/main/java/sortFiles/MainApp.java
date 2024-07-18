@@ -1,10 +1,7 @@
 package sortFiles;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Any;
-import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.util.AnnotationLiteral;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -18,7 +15,6 @@ public class MainApp {
     private static WeldContainer container = weld.initialize();
 
     public static void main(String[] args) {
-        // הזרקת AlgorithmRunner באמצעות CDI
         AlgorithmRunner algorithmRunner = container.select(AlgorithmRunner.class).get();
         algorithmRunner.runAlgorithms();
         shutdown();
@@ -56,7 +52,7 @@ public class MainApp {
     @Produces
     @NumberOfElements
     public int produceNumberOfElements() {
-        return 100; // ערך לדוגמה, ניתן לשנות לפי הצורך
+        return 1000;
     }
 
     private static SortingAlgorithm<Integer> makeRandomSortingAlgorithm() {
