@@ -1,12 +1,9 @@
 package sortFiles;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Pointcut;
 
 import java.util.HashMap;
@@ -23,7 +20,6 @@ public class SortingAspect {
 
     @Before("sortMethod()")
     public void beforeSortMethod() {
-        // No action required before method execution
     }
 
 
@@ -41,13 +37,15 @@ public class SortingAspect {
         totalExecutionTime += executionTime;
     }
 
-
-    @After("execution(* AlgorithmRunner.runAlgorithms(..))")
+    @Pointcut("execution(* AlgorithmRunner.runAlgorithms(..))")
+    public void afterAlgo() {}
+    @After("afterAlgo()")
     public void afterAllSortMethods() {
         System.out.println("Total time of running all sort functions was " + totalExecutionTime + " ms");
         System.out.println("In detail:");
-        for (String methodName : callCounts.keySet()) {
-            System.out.println("Function " + methodName + " ran " + callCounts.get(methodName) + " times and took in total " + executionTimes.get(methodName) + " ms");
-        }
+        System.out.println("Function QuickSort ran " + callCounts.get("QuickSort.sort(..)") + " times and took in total " + executionTimes.get("QuickSort.sort(..)") + " ms");
+        System.out.println("Function BubbleSort ran " + callCounts.get("BubbleSort.sort(..)") + " times and took in total " + executionTimes.get("BubbleSort.sort(..)") + " ms");
+        System.out.println("Function InsertionSort ran " + callCounts.get("InsertionSort.sort(..)") + " times and took in total " + executionTimes.get("InsertionSort.sort(..)") + " ms");
+
     }
 }
